@@ -1,0 +1,50 @@
+<style>
+    p.date {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        line-height: 36px;
+        color: #B5B5B5;
+        margin-top: 20px;
+        margin-bottom: 0;
+        font-family: "Helvetica Neue", "Open Sans", Helvetica, Arial, sans-serif;
+        font-weight: 300;
+    }
+    .main-title {
+        font-size: 28px;
+        margin: 0 0 18px;
+    }
+</style>
+
+<div class="entry-content">
+    <?php /** @var $post \TCK\Blog\Model\Post */ ?>
+    <?php foreach ($block->getPosts() as $post): ?>
+    <?php
+        $date=$post->getCreationTime();
+        $date=explode("-", $date);
+        $dia=explode(" ",$date[2]);
+        $meses=array("enero", "febrero", "marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre");
+        $mes=intval($date[1])-1;
+        $fecha=$dia[0]." de ".$meses[$mes]." de ".$date[0];
+
+        $content=$post->getContent();
+
+        //content fix
+        $post_content=$content;
+        $r_start='{{media url="';
+        $rr_start ='/pub/media/';
+        $r_end='"}}';
+        $rr_end ='';
+        $post_content = str_replace($r_start, $rr_start, $post_content);
+        $post_content = str_replace($r_end, $rr_end, $post_content);
+    ?>
+    <div class="row">
+        <div class="col-md-12">
+            <p class="date"><?php echo $fecha; ?></p>
+            <h2 class="main-title"><a href="<?php echo $post->getUrl() ?>"><?php echo $post->getTitle() ?></a></h2>
+            <?php echo $post->getSummary(); ?>
+            <p><a title="Ver" href="<?php echo $post->getUrl(); ?>">Ver</a></p>
+            <hr class="tall"/>
+        </div>
+    </div>
+    <?php endforeach; ?>
+</div>          

@@ -1,0 +1,32 @@
+<?php
+/** @var $block \TCK\Blog\Block\PostView */
+/** @var $post \TCK\Blog\Model\Post */
+$post = $block->getPost();
+$helper = $block->getHelper();
+$date = $helper->parseDate($post->getCreationTime());
+?>
+<div class="entry-content">
+    <div class="row">
+        <div class="col-md-12">
+            <p class="date"><?php echo $date ?></p>
+            <h1 class="main-title"><?php echo $post->getTitle() ?></h1>
+            <?php echo $post->getContent(); ?>
+            <hr class="tall">
+            <?php if ($post->isShareable()) : ?>
+            <h3>Compartir</h3>
+            <p>
+              <?php if ($post->isShareableFacebook()) : ?>
+                <a href="#" title="Compartir en Facebook"><img alt="Facebook" src="<?php echo $block->getViewFileUrl('TCK_Blog::images/facebook.png')?>" width="64" /></a>
+              <?php endif; ?>
+              <?php if ($post->isShareableTwitter()) : ?>
+                <a href="#" title="Compartir en Twitter"><img alt="Twitter" src="<?php echo $block->getViewFileUrl('TCK_Blog::images/twitter.png')?>" width="64" /></a>
+              <?php endif; ?>
+              <?php if ($post->isShareableGoogleplus()) : ?>
+                <a href="#" title="Compartir en Google+"><img alt="Google+" src="<?php echo $block->getViewFileUrl('TCK_Blog::images/google-plus1.png')?>" width="64" /></a>
+              <?php endif; ?>
+            </p>
+            <?php endif; ?>
+            <p><a href="../" title="Volver a noticas">Volver</a></p>
+        </div>
+    </div>
+</div>

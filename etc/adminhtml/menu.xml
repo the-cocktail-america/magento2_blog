@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="TCK_Blog::blog_content" title="Noticias" module="TCK_Blog" sortOrder="50" parent="Magento_Backend::content" resource="TCK_Blog::blog_content" />
+        <add id="TCK_Blog::post" title="Entradas" module="TCK_Blog" sortOrder="0" parent="TCK_Blog::blog_content" action="blog/post" resource="TCK_Blog::post"/>
+    </menu>
+</config>
