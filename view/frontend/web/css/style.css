@@ -1,22 +1,7 @@
 p.date {
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    line-height: 36px;
-    color: #B5B5B5;
-    margin-top: 20px;
-    margin-bottom: 0;
-    font-family: "Helvetica Neue", "Open Sans", Helvetica, Arial, sans-serif;
-    font-weight: 300;
-}
-.main-title {
-    font-size: calc( 24px + (50 - 24) * ( ( 100vw - 320px ) / ( 1600 - 320 ) ) );
-    margin: 0 0 18px;
-}
-.main-title:after {
-    content: '';
-    display: block;
-    width: 25px;
-    height: 3px;
-    margin: 18px 0;
-    background-color: #10793E;
+  color: #b5b5b5;
+  font-size: 1em;
+  letter-spacing: 2px;
+  margin-bottom: 0;
+  text-transform: uppercase;
 }
