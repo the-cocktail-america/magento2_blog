@@ -1,4 +1,10 @@
 <?php
+/**
+ * PostView Block
+ *
+ * @var $block \TCK\Blog\Block\PostView
+ */
+
 namespace TCK\Blog\Block;
 
 class PostView extends \Magento\Framework\View\Element\Template implements
@@ -117,6 +123,12 @@ class PostView extends \Magento\Framework\View\Element\Template implements
                     'link' => false
                 ]
             );
+        }
+
+        // Page title
+        $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
+        if ($pageMainTitle) {
+          $pageMainTitle->setPageTitle($post->getTitle());
         }
 
         // Set config page
