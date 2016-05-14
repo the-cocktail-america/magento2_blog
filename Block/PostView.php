@@ -85,8 +85,8 @@ class PostView extends \Magento\Framework\View\Element\Template implements
      */
     protected function _prepareLayout()
     {
-        $post = $this->getPost();
         parent::_prepareLayout();
+        $post = $this->getPost();
 
         // Get main settings
         $_config = $this->_helper->getConfig('main');
@@ -97,17 +97,6 @@ class PostView extends \Magento\Framework\View\Element\Template implements
         $title = __($post->getTitle());
         $seo_description = __($post->getSeoDescription());
         $seo_keywords = __($post->getSeoKeywords());
-
-        // Set config page
-        $this->pageConfig->getTitle()->set($title);
-        $this->pageConfig->setDescription($seo_description);
-        $this->pageConfig->setKeywords($seo_keywords);
-
-        // Page title
-        /*$pageMainTitle = $this->getLayout()->getBlock('page.main.title');
-        if ($pageMainTitle) {
-            $pageMainTitle->setPageTitle($title);
-        }*/
 
         // Construct breadscrumb
         $this->getLayout()->createBlock('Magento\Catalog\Block\Breadcrumbs');
@@ -130,7 +119,12 @@ class PostView extends \Magento\Framework\View\Element\Template implements
             );
         }
 
-        return $this;
+        // Set config page
+        $this->pageConfig->getTitle()->set($title);
+        $this->pageConfig->setDescription($seo_description);
+        $this->pageConfig->setKeywords($seo_keywords);
+
+        return parent::_prepareLayout();
     }
 
     /**

@@ -60,14 +60,13 @@ class PostList extends \Magento\Framework\View\Element\Template implements
      */
     protected function _prepareLayout()
     {
-        $post=$this->getPost();
         parent::_prepareLayout();
-        
+
         // Get main settings
         $_config = $this->_helper->getConfig('main');
         $blog_title = (isset($_config['general']['title'])) ? $_config['general']['title'] : "Blog";
         $blog_url = (isset($_config['general']['url_key'])) ? $_config['general']['url_key'] : "blog";
-        
+
         // Get SEO settings
         $seo_description = (isset($_config['seo']['description'])) ? $_config['seo']['description'] : "";
         $seo_keywords = (isset($_config['seo']['keywords'])) ? $_config['seo']['keywords'] : "";
@@ -77,17 +76,6 @@ class PostList extends \Magento\Framework\View\Element\Template implements
         $share_fckb = $_config['share']['facebook'];
         $share_twtr = $_config['share']['twitter'];
         $share_goop = $_config['share']['googleplus'];
-
-        // Set config page
-        $this->pageConfig->getTitle()->set($blog_title);
-        $this->pageConfig->setDescription($seo_description);
-        $this->pageConfig->setKeywords($seo_keywords);
-
-        // Page title
-        /*$pageMainTitle = $this->getLayout()->getBlock('page.main.title');
-        if ($pageMainTitle) {
-            $pageMainTitle->setPageTitle($blog_title);
-        }*/
 
         // Construct breadscrumb
         $this->getLayout()->createBlock('Magento\Catalog\Block\Breadcrumbs');
@@ -100,9 +88,14 @@ class PostList extends \Magento\Framework\View\Element\Template implements
                     'link' => false
                 ]
             );
-        }        
-        
-        return $this;
+        }
+
+        // Set config page
+        $this->pageConfig->setDescription($seo_description);
+        $this->pageConfig->setKeywords($seo_keywords);
+        $this->pageConfig->getTitle()->set($blog_title);
+
+        return parent::_prepareLayout();
     }
 
     /**
