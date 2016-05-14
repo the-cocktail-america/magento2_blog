@@ -10,9 +10,10 @@ $helper = $this->getHelper();
 $date = $helper->parseDate($_post->getCreationTime());
 ?>
 <div class="entry-content">
+  <article id="post-<?php echo $_post->getId(); ?>">
   <p class="date"><?php echo $date ?></p>
   <?php echo $_post->getContent(); ?>
-  <hr class="tall">
+  </article>
   <?php if ($_post->isShareable()) : ?>
   <h3><?php echo __('Share') ?></h3>
   <p>
