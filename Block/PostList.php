@@ -1,4 +1,10 @@
 <?php
+/**
+ * PostList Block
+ *
+ * @var $block \TCK\Blog\Block\PostList
+ */
+
 namespace TCK\Blog\Block;
 
 use TCK\Blog\Api\Data\PostInterface;
@@ -7,6 +13,7 @@ use TCK\Blog\Model\ResourceModel\Post\Collection as PostCollection;
 class PostList extends \Magento\Framework\View\Element\Template implements
     \Magento\Framework\DataObject\IdentityInterface
 {
+
     /**
      * @var \TCK\Blog\Model\ResourceModel\Post\CollectionFactory
      */
@@ -58,6 +65,13 @@ class PostList extends \Magento\Framework\View\Element\Template implements
     /**
      *
      */
+    public function getHelper() {
+        return $this->_helper;
+    }
+
+    /**
+     *
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
@@ -88,6 +102,12 @@ class PostList extends \Magento\Framework\View\Element\Template implements
                     'link' => false
                 ]
             );
+        }
+
+        // Page title
+        $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
+        if ($pageMainTitle) {
+          $pageMainTitle->setPageTitle($blog_title);
         }
 
         // Set config page
