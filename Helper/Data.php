@@ -42,9 +42,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $date = explode("-", $date);
         $day = explode(" ", $date[2]);
-        $months = array("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre");
+        $months = array(__('January'), __('February'), __('March'), __('April'), __('May'), __('June'), __('July'), __('August'), __('September'), __('October'), __('November'), __('December'));
         $month = intval($date[1])-1;
-        $date = $day[0]." de ".$months[$month]." de ".$date[0];
+        $date = $day[0]." ".$months[$month]." ".$date[0];
         return $date;
     }
 }
