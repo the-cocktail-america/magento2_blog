@@ -11,26 +11,23 @@ $date = $helper->parseDate($_post->getCreationTime());
 ?>
 <div class="entry-content">
   <article id="post-<?php echo $_post->getId(); ?>">
-  <p class="date"><?php echo $date ?></p>
+  <div class="article-top">
+  <?php if ($_post->isShareableFacebook()) : ?>
+    <a class="icon-share" href="#" title="<?php echo __('Share in') ?> Facebook"><img alt="Facebook" src="<?php echo $this->getViewFileUrl('TCK_Blog::images/facebook.png')?>" width="32" /></a>
+  <?php
+    endif;
+    if ($_post->isShareableTwitter()) :
+  ?>
+    <a class="icon-share" href="#" title="<?php echo __('Share in') ?> Twitter"><img alt="Twitter" src="<?php echo $this->getViewFileUrl('TCK_Blog::images/twitter.png')?>" width="32" /></a>
+  <?php
+    endif;
+    if ($_post->isShareableGoogleplus()) :
+  ?>
+    <a class="icon-share" href="#" title="<?php echo __('Share in') ?> Google+"><img alt="Google+" src="<?php echo $this->getViewFileUrl('TCK_Blog::images/google-plus1.png')?>" width="32" /></a>
+  <?php endif; ?>
+    <p class="date"><?php echo $date ?></p>
+  </div>
   <?php echo $_post->getContent(); ?>
   </article>
-  <?php if ($_post->isShareable()) : ?>
-  <h3><?php echo __('Share') ?></h3>
-  <p>
-    <?php if ($_post->isShareableFacebook()) : ?>
-      <a href="#" title="<?php echo __('Share in') ?> Facebook"><img alt="Facebook" src="<?php echo $this->getViewFileUrl('TCK_Blog::images/facebook.png')?>" width="64" /></a>
-    <?php
-      endif;
-      if ($_post->isShareableTwitter()) :
-    ?>
-      <a href="#" title="<?php echo __('Share in') ?> Twitter"><img alt="Twitter" src="<?php echo $this->getViewFileUrl('TCK_Blog::images/twitter.png')?>" width="64" /></a>
-      <?php
-        endif;
-        if ($_post->isShareableGoogleplus()) :
-      ?>
-      <a href="#" title="<?php echo __('Share in') ?> Google+"><img alt="Google+" src="<?php echo $this->getViewFileUrl('TCK_Blog::images/google-plus1.png')?>" width="64" /></a>
-    <?php endif; ?>
-  </p>
-  <?php endif; ?>
   <p><a href="../" title="<?php echo __('Back to index') ?>"><?php echo __('Back') ?></a></p>
 </div>

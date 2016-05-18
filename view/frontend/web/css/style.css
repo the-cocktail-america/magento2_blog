@@ -21,10 +21,21 @@ article > header > h2 > a:visited {
   color: inherit !important;
   text-decoration: none;
 }
+article .article-top {
+  border-bottom: 1px solid #bbb;
+  border-top: 1px solid #bbb;
+  margin-bottom: 20px;
+  padding: 2px 0;
+}
 article .date {
-  color: #b5b5b5;
+  color: #222;
   font-size: 1em;
   letter-spacing: 2px;
+  line-height: 2.5em;
   margin-bottom: 0;
   text-transform: uppercase;
+}
+article .icon-share {
+  float: right;
+  margin-left: 5px;
 }
