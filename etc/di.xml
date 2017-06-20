@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="TCK\Blog\Api\Data\PostInterface" type="TCK\Blog\Model\Post" />
+    <preference for="TCK\Blog\Api\CategoryRepositoryInterface" type="TCK\Blog\Model\CategoryRepository"/>
+    <preference for="TCK\Blog\Api\Data\CategoryInterface" type="TCK\Blog\Model\Category"/>
+    <preference for="TCK\Blog\Api\Data\CategorySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
     <virtualType name="BlogGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
         <arguments>
             <argument name="appliers" xsi:type="array">

@@ -15,6 +15,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
+    
+    protected $_catHelper;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -30,10 +32,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Store\Model\System\Store $systemStore,
+        \TCK\Blog\Helper\Category $cathelper,
         array $data = []
     ) {
         $this->_wysiwygConfig = $wysiwygConfig;
         $this->_systemStore = $systemStore;
+        $this->_catHelper = $cathelper;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -58,6 +62,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \TCK\Blog\Model\Post $model */
         $model = $this->_coreRegistry->registry('blog_post');
+        $collection = $model->getCollection();
+        $collection->getSelect()
+                ->joinLeft(
+                        ['pc' => $collection->getTable('tck_post_category')],
+                        'main_table.post_id = pc.post_id',
+                        array('group_concat(pc.category_id separator ",") as category')
+                        )
+                ->group('main_table.post_id');
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
@@ -145,8 +157,21 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'text',
             ['name' => 'seo_description', 'label' => __('SEO Descripción'), 'title' => __('SEO Descripción'), 'required' => true]
         );
-
-        $form->setValues($model->getData());
+        
+        $fieldset->addField(
+            'category',
+            'multiselect',
+            [
+                'name' => 'category',
+                'label' => __('Categoría'),
+                'title' => __('Categoría'),
+                'required' => true,
+                'values' => $this->_catHelper->getCategoryFormatted(true),
+                
+            ]
+        );
+        $data = ($collection->getSize() > 0) ? $collection->getData()[0] : "";
+        $form->setValues($data);
         $form->setUseContainer(true);
         $this->setForm($form);
 

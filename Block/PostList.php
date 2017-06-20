@@ -20,6 +20,8 @@ class PostList extends \Magento\Framework\View\Element\Template implements
     protected $_postCollectionFactory;
 
     protected $_helper;
+    
+    protected $_logger;
 
     /**
      * Construct
@@ -32,11 +34,13 @@ class PostList extends \Magento\Framework\View\Element\Template implements
         \Magento\Framework\View\Element\Template\Context $context,
         \TCK\Blog\Model\ResourceModel\Post\CollectionFactory $postCollectionFactory,
         \TCK\Blog\Helper\Data $helper,
+ \Psr\Log\LoggerInterface $logger,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_postCollectionFactory = $postCollectionFactory;
         $this->_helper = $helper;
+        $this->_logger = $logger;
     }
 
 
@@ -45,6 +49,10 @@ class PostList extends \Magento\Framework\View\Element\Template implements
      */
     public function getPosts()
     {
+        //Pagination parameters
+        $page = ($this->getRequest()->getParam('p'))? $this->getRequest()->getParam('p') : 1;
+        $pageSize = ($this->getRequest()->getParam('limit'))? $this->getRequest()->getParam('limit') : 1;
+        
         // Check if posts has already been defined
         // makes our block nice and re-usable! We could
         // pass the 'posts' data to this block, with a collection
@@ -56,7 +64,7 @@ class PostList extends \Magento\Framework\View\Element\Template implements
                 ->addOrder(
                     PostInterface::CREATION_TIME,
                     PostCollection::SORT_ORDER_DESC
-                );
+                )->setPageSize($pageSize)->setCurPage($page);
             $this->setData('posts', $posts);
         }
         return $this->getData('posts');
@@ -110,12 +118,25 @@ class PostList extends \Magento\Framework\View\Element\Template implements
           $pageMainTitle->setPageTitle($blog_title);
         }
 
+        //Pager
+        $pager = $this->getLayout()->createBlock(
+                'Magento\Theme\Block\Html\Pager', 'tck.blog.pager'
+                )
+                ->setAvailableLimit(
+                        array(5=>5, 10=>10, 15=>15)
+                        )
+                ->setShowPerPage(true)
+                ->setCollection($this->getPosts());
+        $this->setChild('pager', $pager);
+        $this->getPosts()->load();
+        
         // Set config page
         $this->pageConfig->setDescription($seo_description);
         $this->pageConfig->setKeywords($seo_keywords);
         $this->pageConfig->getTitle()->set($blog_title);
 
-        return parent::_prepareLayout();
+//        return parent::_prepareLayout();
+        return $this;
     }
 
     /**
@@ -126,6 +147,11 @@ class PostList extends \Magento\Framework\View\Element\Template implements
     public function getIdentities()
     {
         return [\TCK\Blog\Model\Post::CACHE_TAG . '_' . 'list'];
+    }
+    
+    public function getPagerHtml()
+    {
+        return $this->getChildHtml('pager');
     }
 
 }

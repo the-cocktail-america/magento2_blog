@@ -7,11 +7,17 @@ use Magento\TestFramework\ErrorLog\Logger;
 class Save extends \Magento\Backend\App\Action
 {
 
+    protected $_resource;
     /**
      * @param Action\Context $context
      */
-    public function __construct(Action\Context $context)
+    
+    public function __construct(
+        Action\Context $context,
+        \Magento\Framework\App\ResourceConnection $resource
+        )
     {
+        $this->_resource = $resource;
         parent::__construct($context);
     }
 
@@ -41,7 +47,7 @@ class Save extends \Magento\Backend\App\Action
             if ($id) {
                 $model->load($id);
             }
-
+            
             $model->setData($data);
 
             $this->_eventManager->dispatch(
@@ -51,6 +57,13 @@ class Save extends \Magento\Backend\App\Action
 
             try {
                 $model->save();
+
+                $this->deletePostCategory($model->getId());
+                
+                foreach($data['category'] as $category){
+                    $this->savePostCategories($model->getId(), $category);
+                }
+                
                 $this->messageManager->addSuccess(__('Has guardado la entrada.'));
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
                 if ($this->getRequest()->getParam('back')) {
@@ -62,7 +75,7 @@ class Save extends \Magento\Backend\App\Action
             } catch (\RuntimeException $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException($e, __('Algo fallo al guardar la entrada.'));
+                $this->messageManager->addException($e, $e->getMessage());//__('Algo fallo al guardar la entrada.'));
             }
 
             $this->_getSession()->setFormData($data);
@@ -70,4 +83,25 @@ class Save extends \Magento\Backend\App\Action
         }
         return $resultRedirect->setPath('*/*/');
     }
+    
+    public function savePostCategories($post, $category){
+        
+        $postCategoryResource = $this->_objectManager->create('TCK\Blog\Model\PostCategory');
+
+        $postCategoryResource->setPostId($post);
+        $postCategoryResource->setCategoryId($category);
+        $postCategoryResource->save();
+           
+    }
+    
+    public function deletePostCategory($post){
+        
+        $postCategoryResource = $this->_objectManager->create('TCK\Blog\Model\PostCategory');
+        
+        $collection = $postCategoryResource->getCollection();
+        $collection->addFilter('post_id', $post)
+                ->walk('delete');
+        
+    }
+    
 }

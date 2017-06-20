@@ -10,6 +10,12 @@
                             <resource id="TCK_Blog::post_delete" title="Eliminar entrada" sortOrder="20" />
                         </resource>
                     </resource>
+                    <resource id="TCK_Blog::category" sortOrder="20" title="Categorias">
+<!--                        <resource id="TCK_Blog::Category_save" sortOrder="10" title="Guardar Categoria"/>
+                        <resource id="TCK_Blog::Category_delete" sortOrder="20" title="Eliminar Categoria"/>
+                        <resource id="TCK_Blog::Category_update" sortOrder="30" title="Editar Categoria"/>
+                        <resource id="TCK_Blog::Category_view" sortOrder="40" title="Ver Categoria"/>-->
+                    </resource>
                 </resource>
             </resource>
         </resources>

@@ -47,4 +47,5 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $date = $day[0]." ".$months[$month]." ".$date[0];
         return $date;
     }
+    
 }

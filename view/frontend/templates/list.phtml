@@ -8,6 +8,11 @@
 $helper = $this->getHelper();
 ?>
 <div class="entry-content">
+    <?php if ($block->getPagerHtml()): ?>
+    <div class="order-products-toolbar toolbar bottom custom-pager" >
+        <?php echo $block->getPagerHtml(); ?>
+    </div>
+<?php endif; ?>
 <?php foreach ($block->getPosts() as $_post): ?>
   <article id="post-<?php echo $_post->getId(); ?>">
     <header>
@@ -19,4 +24,14 @@ $helper = $this->getHelper();
     </div>
   </article>
 <?php endforeach; ?>
+<?php if ($block->getPagerHtml()): ?>
+    <div class="order-products-toolbar toolbar bottom custom-pager">
+        <?php echo $block->getPagerHtml(); ?>
+    </div>
+<?php endif; ?>
 </div>
+<style type="text/css">
+    .custom-pager .limiter{
+        display: block !important;
+    }
+</style>
