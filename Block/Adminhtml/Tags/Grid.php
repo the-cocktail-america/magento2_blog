@@ -1,6 +1,6 @@
 <?php
 
-namespace TCK\Blog\Block\Adminhtml\Category;
+namespace TCK\Blog\Block\Adminhtml\Tags;
 
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended {
 
@@ -55,7 +55,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended {
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-    \Magento\Backend\Block\Template\Context $context, \Magento\Backend\Helper\Data $backendHelper, \Magento\Store\Model\WebsiteFactory $websiteFactory, \TCK\Blog\Model\ResourceModel\Category\Collection $collectionFactory, \Magento\Framework\Module\Manager $moduleManager, array $data = []
+    \Magento\Backend\Block\Template\Context $context, \Magento\Backend\Helper\Data $backendHelper, \Magento\Store\Model\WebsiteFactory $websiteFactory, \TCK\Blog\Model\ResourceModel\Tags\Collection $collectionFactory, \Magento\Framework\Module\Manager $moduleManager, array $data = []
     ) {
 
         $this->_collectionFactory = $collectionFactory;
@@ -93,10 +93,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended {
 
 
             $collection = $this->_collectionFactory;
-            $collection->join($collection->getTable('tck_blog_category'),
-                    'main_table.parent_category = '.$collection->getTable('tck_blog_category').'.category_id',
-                    array($collection->getTable('tck_blog_category').'.category as pcategory')
-                    );
 
             $this->setCollection($collection);
 
@@ -131,26 +127,20 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended {
     protected function _prepareColumns() {
 
         $this->addColumn(
-                'category', [
-            'header' => __('Categoria'),
-            'index' => 'category',
-            'class' => 'category'
+            'tag', [
+            'header' => __('Tag'),
+            'index' => 'tag',
+            'class' => 'tag'
                 ]
         );
         $this->addColumn(
-                'slug', [
+            'slug', [
             'header' => __('Slug'),
             'index' => 'slug',
             'class' => 'slug'
                 ]
         );
-        $this->addColumn(
-                'parent_category', [
-            'header' => __('Categoria Padre'),
-            'index' => 'pcategory',
-            'class' => 'parent_category'
-                ]
-        );
+
         /* {{CedAddGridColumn}} */
 
         $block = $this->getLayout()->getBlock('grid.bottom.links');
@@ -165,11 +155,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended {
      * @return $this
      */
     protected function _prepareMassaction() {
-        $this->setMassactionIdField('category_id');
-        $this->getMassactionBlock()->setFormFieldName('category_id');
+        $this->setMassactionIdField('tags_id');
+        $this->getMassactionBlock()->setFormFieldName('tags_id');
 
         $this->getMassactionBlock()->addItem(
-                'delete', array(
+            'delete', array(
             'label' => __('Eliminar'),
             'url' => $this->getUrl('blog/*/massDelete'),
             'confirm' => __('Estas seguro que deseas eliminar este registro?')
@@ -191,7 +181,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended {
      */
     public function getRowUrl($row) {
         return $this->getUrl(
-                        'blog/*/edit', ['store' => $this->getRequest()->getParam('store'), 'category_id' => $row->getId()]
+                        'blog/*/edit', ['store' => $this->getRequest()->getParam('store'), 'tags_id' => $row->getId()]
         );
     }
 

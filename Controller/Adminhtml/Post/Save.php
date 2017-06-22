@@ -75,7 +75,7 @@ class Save extends \Magento\Backend\App\Action
             } catch (\RuntimeException $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException($e, $e->getMessage());//__('Algo fallo al guardar la entrada.'));
+                $this->messageManager->addException($e, __('Algo fallo al guardar la entrada.'));
             }
 
             $this->_getSession()->setFormData($data);

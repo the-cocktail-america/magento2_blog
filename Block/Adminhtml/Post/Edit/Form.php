@@ -69,6 +69,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                         'main_table.post_id = pc.post_id',
                         array('group_concat(pc.category_id separator ",") as category')
                         )
+                ->where('main_table.post_id = ?', $this->getRequest()->getParam("post_id"))
                 ->group('main_table.post_id');
 
         /** @var \Magento\Framework\Data\Form $form */
@@ -165,8 +166,20 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'name' => 'category',
                 'label' => __('Categoría'),
                 'title' => __('Categoría'),
-                'required' => true,
+                'required' => false,
                 'values' => $this->_catHelper->getCategoryFormatted(true),
+                
+            ]
+        );
+        
+        $fieldset->addField(
+            'tags',
+            'text',
+            [
+                'name' => 'tags',
+                'label' => __('Tags'),
+                'title' => __('Tags'),
+                'required' => false,
                 
             ]
         );

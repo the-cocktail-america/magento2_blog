@@ -37,8 +37,7 @@ class Category extends \Magento\Framework\App\Helper\AbstractHelper
                             'main_table.parent_category = pc.category_id',
                             array('pc.category as parent_cat')
                             )
-                    ->where('main_table.parent_category IS NULL OR
-                             main_table.parent_category != 1')
+                    ->where('main_table.parent_category IS NOT NULL')
                     ->order(array('pc.category', 'main_table.category'));
 
             foreach($collection as $data){

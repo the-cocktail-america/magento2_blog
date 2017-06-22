@@ -1,6 +1,6 @@
 <?php
 
-namespace TCK\Blog\Controller\Adminhtml\Category;
+namespace TCK\Blog\Controller\Adminhtml\Tags;
 
 class Edit extends \Magento\Backend\App\Action {
 
@@ -11,9 +11,9 @@ class Edit extends \Magento\Backend\App\Action {
 
 
         // 1. Get ID and create model
-        $id = $this->getRequest()->getParam('category_id');
+        $id = $this->getRequest()->getParam('tags_id');
 
-        $model = $this->_objectManager->create('TCK\Blog\Model\Category');
+        $model = $this->_objectManager->create('TCK\Blog\Model\Tags');
 
         $registryObject = $this->_objectManager->get('Magento\Framework\Registry');
 
@@ -21,7 +21,7 @@ class Edit extends \Magento\Backend\App\Action {
         if ($id) {
             $model->load($id);
             if (!$model->getId()) {
-                $this->messageManager->addError(__('La categoria no existe.'));
+                $this->messageManager->addError(__('El tag no existe.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -31,7 +31,7 @@ class Edit extends \Magento\Backend\App\Action {
         if (!empty($data)) {
             $model->setData($data);
         }
-        $registryObject->register('tck_blog_category', $model);
+        $registryObject->register('tck_blog_tags', $model);
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();

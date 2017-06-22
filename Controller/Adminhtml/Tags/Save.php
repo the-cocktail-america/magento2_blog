@@ -1,6 +1,6 @@
 <?php
 
-namespace TCK\Blog\Controller\Adminhtml\Category;
+namespace TCK\Blog\Controller\Adminhtml\Tags;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 
@@ -12,12 +12,10 @@ class Save extends \Magento\Backend\App\Action {
     public function execute() {
 
         $data = $this->getRequest()->getParams();
-
         if ($data) {
-            $model = $this->_objectManager->create('TCK\Blog\Model\Category');
+            $model = $this->_objectManager->create('TCK\Blog\Model\Tags');
 
-            $id = $this->getRequest()->getParam('category_id');
-
+            $id = $this->getRequest()->getParam('tags_id');
             if ($id) {
                 $model->load($id);
             }
@@ -27,10 +25,10 @@ class Save extends \Magento\Backend\App\Action {
             try {
                 $model->save();
 
-                $this->messageManager->addSuccess(__('Categoria guardada exitosamente.'));
+                $this->messageManager->addSuccess(__('Tag guardado exitosamente.'));
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/edit', array('category_id' => $model->getId(), '_current' => true));
+                    $this->_redirect('*/*/edit', array('tags_id' => $model->getId(), '_current' => true));
                     return;
                 }
                 $this->_redirect('*/*/');
@@ -40,14 +38,14 @@ class Save extends \Magento\Backend\App\Action {
             } catch (\RuntimeException $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException($e, __('Ocurrió un error al guardar la categoria.'));
+                $this->messageManager->addException($e, __('Ocurrió un error al guardar el tag.'));
             }
 
             $this->_getSession()->setFormData($data);
-            $this->_redirect('*/*/edit', array('category_id' => $this->getRequest()->getParam('category_id')));
+            $this->_redirect('*/*/edit', array('tags_id' => $this->getRequest()->getParam('tags_id')));
             return;
         }
         $this->_redirect('*/*/');
     }
-    
+
 }

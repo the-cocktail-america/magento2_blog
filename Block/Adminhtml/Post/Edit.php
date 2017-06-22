@@ -42,7 +42,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             $this->buttonList->add(
                 'saveandcontinue',
                 [
-                    'label' => __('Salvar y continuar editando'),
+                    'label' => __('Guardar y continuar editando'),
                     'class' => 'save',
                     'data_attribute' => [
                         'mage-init' => [

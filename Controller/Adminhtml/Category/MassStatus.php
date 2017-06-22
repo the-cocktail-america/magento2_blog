@@ -8,7 +8,7 @@ class MassStatus extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-		 $ids = $this->getRequest()->getParam('id');
+		 $ids = $this->getRequest()->getParam('category_id');
 		 $status = $this->getRequest()->getParam('status');
 		if (!is_array($ids) || empty($ids)) {
             $this->messageManager->addError(__('Por favor seleccione por lo menos una categoria.'));

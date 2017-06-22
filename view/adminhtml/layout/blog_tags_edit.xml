@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="TCK\Blog\Block\Adminhtml\Tags\Edit" name="blog_tags_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="TCK\Blog\Block\Adminhtml\Tags\Edit\Tabs" name="blog_tags_edit_tabs">
+                <block class="TCK\Blog\Block\Adminhtml\Tags\Edit\Tab\Tags" name="blog_tags_edit_tab_tags"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">tags_section</argument>
+                    <argument name="block" xsi:type="string">blog_tags_edit_tab_tags</argument>
+                </action>
+                <!--CedAddTab-->
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -8,7 +8,7 @@ class Delete extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-		$id = $this->getRequest()->getParam('id');
+		$id = $this->getRequest()->getParam('category_id');
 		try {
 				$banner = $this->_objectManager->get('TCK\Blog\Model\Category')->load($id);
 				$banner->delete();

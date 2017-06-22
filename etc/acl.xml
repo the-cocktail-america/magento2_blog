@@ -16,6 +16,8 @@
                         <resource id="TCK_Blog::Category_update" sortOrder="30" title="Editar Categoria"/>
                         <resource id="TCK_Blog::Category_view" sortOrder="40" title="Ver Categoria"/>-->
                     </resource>
+                    <resource id="TCK_Blog::tags" sortOrder="30" title="Categorias">
+                    </resource>
                 </resource>
             </resource>
         </resources>
