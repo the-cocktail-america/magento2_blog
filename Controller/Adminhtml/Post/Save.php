@@ -64,6 +64,14 @@ class Save extends \Magento\Backend\App\Action
                     $this->savePostCategories($model->getId(), $category);
                 }
                 
+                $this->deletePostTags($model->getId());
+                
+                $selected_tags = array_unique($data["selected_tags"]);
+                
+                foreach($selected_tags as $tag){
+                    $this->savePostTags($model->getId(), $tag);
+                }
+                
                 $this->messageManager->addSuccess(__('Has guardado la entrada.'));
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
                 if ($this->getRequest()->getParam('back')) {
@@ -75,7 +83,7 @@ class Save extends \Magento\Backend\App\Action
             } catch (\RuntimeException $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException($e, __('Algo fallo al guardar la entrada.'));
+                $this->messageManager->addException($e, $e->getMessage());//, __('Algo fallo al guardar la entrada.'));
             }
 
             $this->_getSession()->setFormData($data);
@@ -89,7 +97,7 @@ class Save extends \Magento\Backend\App\Action
         $postCategoryResource = $this->_objectManager->create('TCK\Blog\Model\PostCategory');
 
         $postCategoryResource->setPostId($post);
-        $postCategoryResource->setCategoryId($category);
+        $postCategoryResource->setcategoryId($category);
         $postCategoryResource->save();
            
     }
@@ -102,6 +110,22 @@ class Save extends \Magento\Backend\App\Action
         $collection->addFilter('post_id', $post)
                 ->walk('delete');
         
+    }
+    
+    public function savePostTags($post, $tag){
+        $postTagsResource = $this->_objectManager->create('TCK\Blog\Model\PostTags');
+
+        $postTagsResource->setPostId($post);
+        $postTagsResource->setTagsId($tag);
+        $postTagsResource->save();
+    }
+    
+    public function deletePostTags($post){
+        $postTagsResource = $this->_objectManager->create('TCK\Blog\Model\PostTags');
+        
+        $collection = $postTagsResource->getCollection();
+        $collection->addFilter('post_id', $post)
+                ->walk('delete');
     }
     
 }

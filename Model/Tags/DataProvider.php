@@ -2,7 +2,7 @@
 
 namespace TCK\Blog\Model\Tags;
 
-use TCK\Blog\Model\ResourceModel\Category\CollectionFactory;
+use TCK\Blog\Model\ResourceModel\Tags\CollectionFactory;
 use Magento\Framework\App\Request\DataPersistorInterface;
 
 class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider {

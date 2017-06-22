@@ -17,6 +17,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_systemStore;
     
     protected $_catHelper;
+    
+    protected $_urlBuilder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -33,11 +35,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Store\Model\System\Store $systemStore,
         \TCK\Blog\Helper\Category $cathelper,
+        \Magento\Backend\Model\UrlInterface $urlBuilder,
         array $data = []
     ) {
         $this->_wysiwygConfig = $wysiwygConfig;
         $this->_systemStore = $systemStore;
         $this->_catHelper = $cathelper;
+        $this->_urlBuilder = $urlBuilder;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -183,11 +187,60 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 
             ]
         );
+        
+        $fieldset->addField(
+            'selected_tags',
+            'multiselect',
+                [
+                    'name' => 'selected_tags',
+                    'label' => false,
+                    'title' => false,
+                    'required' => false,
+                ]
+        );
+        
+        $form->getElement('tags')->setAfterElementJs(
+                $this->js()
+                );
+        
         $data = ($collection->getSize() > 0) ? $collection->getData()[0] : "";
         $form->setValues($data);
         $form->setUseContainer(true);
         $this->setForm($form);
 
         return parent::_prepareForm();
+    }
+    
+    
+    public function js(){
+        $url = $this->_urlBuilder->getUrl('blog/tags/ajaxtags');
+        $js = <<<EOF
+        <script type='text/javascript'>
+            require(['jquery', 'jquery/ui'], function($){
+                $(function(){
+                    function populateTagMultiselect(object){
+                        $("#post_selected_tags")
+                            .append($("<option></option>")
+                            .val(object.item.id)
+                            .html(object.item.label));
+                        $("#post_selected_tags option").prop('selected',true);
+                        
+                    }
+                
+                    $("#post_tags").autocomplete({
+                        source: "{$url}",
+                        minLength: 3,
+                        select: function( event, ui ) {
+                           populateTagMultiselect(ui);
+                           this.value = "";
+                           return false;
+                        }
+                    });
+                });
+            });
+        </script>
+EOF;
+          return $js;      
+        
     }
 }
